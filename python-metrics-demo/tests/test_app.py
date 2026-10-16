@@ -71,3 +71,26 @@ def test_delete_task(client):
     deleted = client.delete(f"/tasks/{task_id}")
     assert deleted.status_code == 204
     assert client.get(f"/tasks/{task_id}").status_code == 404
+
+def test_create_task_rejects_non_string_title(client):
+    response = client.post("/tasks", json={"title": 123})
+    assert response.status_code == 400
+
+
+def test_create_task_rejects_non_string_description(client):
+    response = client.post(
+        "/tasks",
+        json={"title": "Valid task", "description": 123},
+    )
+    assert response.status_code == 400
+
+
+def test_create_task_trims_title_and_description(client):
+    response = client.post(
+        "/tasks",
+        json={"title": "  Valid task  ", "description": "  Details  "},
+    )
+    assert response.status_code == 201
+    task = response.get_json()["task"]
+    assert task["title"] == "Valid task"
+    assert task["description"] == "Details"
