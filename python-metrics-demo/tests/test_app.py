@@ -32,6 +32,51 @@ def test_create_and_list_task(client):
     assert len(listed.get_json()["tasks"]) == 1
 
 
+def test_list_tasks_filters_by_completion(client):
+    open_task = client.post("/tasks", json={"title": "Open task"}).get_json()["task"]
+    done_task = client.post("/tasks", json={"title": "Done task"}).get_json()["task"]
+    client.patch(f"/tasks/{done_task['id']}", json={"completed": True})
+
+    open_response = client.get("/tasks?completed=false")
+    done_response = client.get("/tasks?completed=true")
+
+    assert [task["id"] for task in open_response.get_json()["tasks"]] == [open_task["id"]]
+    assert [task["id"] for task in done_response.get_json()["tasks"]] == [done_task["id"]]
+
+
+def test_list_tasks_searches_title_and_description_case_insensitively(client):
+    client.post("/tasks", json={"title": "Write report", "description": "Quarterly results"})
+    client.post("/tasks", json={"title": "Review code", "description": "API changes"})
+
+    title_results = client.get("/tasks?q=REPORT")
+    description_results = client.get("/tasks?q=quarterly")
+
+    assert len(title_results.get_json()["tasks"]) == 1
+    assert title_results.get_json()["tasks"][0]["title"] == "Write report"
+    assert len(description_results.get_json()["tasks"]) == 1
+    assert description_results.get_json()["tasks"][0]["title"] == "Write report"
+
+
+def test_list_tasks_combines_filters(client):
+    matching = client.post(
+        "/tasks", json={"title": "Prepare report", "description": ""}
+    ).get_json()["task"]
+    client.post("/tasks", json={"title": "Prepare notes"})
+    client.patch(f"/tasks/{matching['id']}", json={"completed": True})
+
+    response = client.get("/tasks?completed=true&q=report")
+
+    assert [task["id"] for task in response.get_json()["tasks"]] == [matching["id"]]
+
+
+@pytest.mark.parametrize("value", ["yes", "1", ""])
+def test_list_tasks_rejects_invalid_completion_filter(client, value):
+    response = client.get(f"/tasks?completed={value}")
+
+    assert response.status_code == 400
+    assert "completed" in response.get_json()["error"]
+
+
 def test_create_task_requires_title(client):
     response = client.post("/tasks", json={"title": "   "})
     assert response.status_code == 400

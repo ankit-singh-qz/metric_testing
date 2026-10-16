@@ -25,9 +25,25 @@ class TaskStore:
             self._tasks[task["id"]] = task
             return dict(task)
 
-    def list_tasks(self) -> list[dict[str, Any]]:
+    def list_tasks(
+        self,
+        completed: bool | None = None,
+        query: str | None = None,
+    ) -> list[dict[str, Any]]:
         with self._lock:
-            return [dict(task) for task in self._tasks.values()]
+            tasks = [dict(task) for task in self._tasks.values()]
+
+        if completed is not None:
+            tasks = [task for task in tasks if task["completed"] is completed]
+        if query:
+            search = query.casefold()
+            tasks = [
+                task
+                for task in tasks
+                if search in task["title"].casefold()
+                or search in task["description"].casefold()
+            ]
+        return tasks
 
     def get(self, task_id: str) -> dict[str, Any] | None:
         with self._lock:

@@ -24,7 +24,9 @@ If your repository already has a working `.venv`, activate that environment and 
 ## Endpoints
 
 - `GET /health` — health check
-- `GET /tasks` — list tasks
+- `GET /tasks` — list tasks; optionally filter with `?completed=true` or
+  `?completed=false`, and search titles/descriptions with `?q=keyword`.
+  Filters can be combined, for example `/tasks?completed=false&q=report`.
 - `POST /tasks` — create a task (`{"title":"Example","description":"Optional"}`)
 - `GET /tasks/<id>` — get a task
 - `PATCH /tasks/<id>` — update `title`, `description`, and/or `completed`

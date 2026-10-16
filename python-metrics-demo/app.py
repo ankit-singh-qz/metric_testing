@@ -25,7 +25,16 @@ def create_app(store: TaskStore | None = None) -> Flask:
 
     @app.get("/tasks")
     def list_tasks():
-        return jsonify({"tasks": task_store.list_tasks()}), 200
+        completed_param = request.args.get("completed")
+        completed = None
+        if completed_param is not None:
+            normalized = completed_param.strip().lower()
+            if normalized not in {"true", "false"}:
+                return jsonify({"error": "'completed' must be 'true' or 'false'."}), 400
+            completed = normalized == "true"
+
+        query = request.args.get("q", "").strip() or None
+        return jsonify({"tasks": task_store.list_tasks(completed=completed, query=query)}), 200
 
     @app.post("/tasks")
     def create_task():
