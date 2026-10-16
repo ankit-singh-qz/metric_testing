@@ -1,0 +1,20 @@
+# EXAMPLE ONLY — GitHub Actions will not run this file while it ends in .example.
+# To enable deployments, rename it to deploy-python-example.yml and configure a
+# real hosting provider, credentials stored as GitHub Actions secrets, and a
+# deployment command. Do not count this template as a deployment.
+name: Python Metrics Demo Deployment (Example)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deployment-placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Explain required setup
+        run: |
+          echo "No deployment was performed."
+          echo "Configure a hosting provider and its credentials before enabling this workflow."
