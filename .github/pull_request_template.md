@@ -4,6 +4,8 @@ Describe the change and the problem it solves.
 
 ## Linked issue
 
+Link a work item so attribution mapping and lead time can be measured (`Closes`, `Fixes`, or `Resolves`):
+
 Closes #
 
 ## Validation

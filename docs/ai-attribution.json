@@ -4,26 +4,22 @@
   "tool": "ChatGPT (OpenAI)",
   "status": "AI-assisted; human review and validation required",
   "scope": [
-    "python-metrics-demo/app.py",
-    "python-metrics-demo/task_store.py",
-    "python-metrics-demo/tests/test_app.py",
-    "python-metrics-demo/tests/test_task_store.py",
-    "python-metrics-demo/README.md",
-    "python-metrics-demo/requirements.txt",
-    "python-metrics-demo/.gitignore",
-    ".github/workflows/python-metrics-ci.yml",
+    ".github/workflows/metrics-ci.yml",
+    ".github/workflows/deploy-metrics.yml",
     ".github/workflows/deploy-python-example.yml.example",
     ".github/pull_request_template.md",
     ".github/ISSUE_TEMPLATE/feature_request.yml",
     ".github/ISSUE_TEMPLATE/bug_report.yml",
     "docs/github-metrics-guide.md",
+    "docs/ai-telemetry-github.md",
     "docs/ai-attribution.json",
+    "scripts/github_metrics_snapshot.py",
     "AI_USAGE.md",
     "INSTALL_AND_USE.md"
   ],
   "limitations": [
     "This record is an explicit disclosure, not independent proof of exact AI-authored line percentages.",
-    "Review and test the code before merging it.",
+    "Review workflow and template changes before merging them.",
     "Do not use this record to classify pre-existing repository code as AI-generated."
   ]
 }

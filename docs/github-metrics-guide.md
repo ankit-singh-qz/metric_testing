@@ -12,20 +12,25 @@ This guide defines candidate measurements. Confirm the definitions used by your 
 | Deployment frequency | Successful production deployments per day/week | A configured deployment system and successful deployment events are required. CI runs are not deployments. |
 | Attribution mapping rate | Changes or PRs linked to a valid issue/work item and contributor divided by all in-scope changes | Define the denominator and validate links/identity mapping. |
 
+## AI-Telemetry on GitHub
+
+For a step-by-step setup that covers all seven metrics (including Cursor AI code % and GitHub deployment events), see [ai-telemetry-github.md](./ai-telemetry-github.md).
+
 ## What this bundle supports
 
-- Python code and tests provide a real code-change example.
-- CI verifies the sample on pull requests and selected branch pushes.
+- [metrics-ci.yml](../.github/workflows/metrics-ci.yml) validates the metrics snapshot script and attribution metadata on pull requests and selected branch pushes.
 - PR and issue templates encourage consistent issue linkage, review notes, validation, and AI disclosure.
+- `scripts/github_metrics_snapshot.py` (stdlib only) can summarize GitHub-sourced metrics locally.
 - `ai-attribution.json` documents declared AI-assisted files for this bundle.
-- A deployment workflow example is included but intentionally inactive until a real provider is configured.
+- [deploy-metrics.yml](../.github/workflows/deploy-metrics.yml) records successful `production` deployments after CI on `main` (for deployment frequency and lead time). Replace the environment URL with your real host when you have one.
+- [deploy-python-example.yml.example](../.github/workflows/deploy-python-example.yml.example) shows optional hosting-provider steps.
 
 These assets improve traceability and give a metrics collector workflow activity to observe. They do not create historical review events or deployments, and they do not produce credible metric values by themselves.
 
 ## Suggested usage
 
 1. Link each feature or bug PR to an issue.
-2. Make a focused change and open a PR with test evidence and an AI-assistance disclosure where applicable.
+2. Make a focused change and open a PR with validation notes and an AI-assistance disclosure where applicable.
 3. Request an actual human review; respond to feedback with normal code changes.
 4. Merge through your usual review policy.
 5. If you need deployment frequency or end-to-end lead time, configure and record real production deployments.
