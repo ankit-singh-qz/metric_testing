@@ -19,6 +19,8 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+SNAPSHOT_VERSION = "0.1.1"
+
 ISSUE_KEYWORDS = re.compile(
     r"\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)\b", re.I
 )
@@ -199,6 +201,7 @@ def main() -> None:
     deploy_per_week = (prod_deployments / window_days) * 7.0 if window_days else 0.0
 
     report = {
+        "snapshot_version": SNAPSHOT_VERSION,
         "repository": f"{owner}/{repo}",
         "window_days": window_days,
         "since_utc": since.isoformat(),

@@ -15,7 +15,7 @@ This repository is set up so you can observe all seven engineering metrics from 
 ## One-time setup
 
 1. **GitHub** — Enable Issues. Optionally add a `production` environment under **Settings → Environments** (no secrets required for the demo deploy recorder).
-2. **Cursor (AI-authored code %)** — Open this repo as the **workspace root** (single-root; multi-root is not supported for AI commit metrics). Commit from Cursor so `/analytics/ai-code/commits` can attribute Tab vs Composer vs non-AI lines. Enterprise teams use the AI Code Tracking API; see Cursor docs for API keys and date windows.
+2. **Cursor (AI-authored code %)** — Open this repo as the **workspace root** (single-root; multi-root is not supported for AI commit metrics). Use **Source Control** in Cursor (or the terminal panel in the same window) to commit and push so `/analytics/ai-code/commits` can attribute Tab vs Composer vs non-AI lines. Enterprise teams use the AI Code Tracking API; see Cursor docs for API keys and date windows.
 3. **OpenTelemetry (optional)** — For Cloud Agent activity on GitHub, enable OpenTelemetry Export and the `cloud_agents` family. Events such as `cursor.cloud_agent.pull_request` and `cursor.cloud_agent.commit` include `vcs.repository.url` for GitHub repos only.
 
 ## Generate signal (recommended sequence)
@@ -27,6 +27,10 @@ This repository is set up so you can observe all seven engineering metrics from 
 5. If changes were requested, push at least one follow-up commit (metric 4).
 6. Merge after approval (metrics 2, 3, 5, 7).
 7. After merge to `main`, **Metrics CI** runs, then **Deploy Metrics Bundle** records a `production` deployment (metrics 5 and 6).
+
+## GitHub webhooks
+
+If you configured a repo webhook, a **push** fires after you push from Cursor; **pull_request** and **pull_request_review** fire when you open or update a PR and when someone submits a review on GitHub. Check **Settings → Webhooks → Recent Deliveries** if events are missing. Webhooks do not replace Cursor for metric 1 (AI line attribution).
 
 ## Verify metrics locally
 
