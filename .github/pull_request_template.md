@@ -2,7 +2,11 @@
 
 Describe the change and the problem it solves.
 
+<!-- Small doc or workflow edits still benefit from issue linkage and review for metrics 2–7. -->
+
 ## Linked issue
+
+Link a work item so attribution mapping and lead time can be measured (`Closes`, `Fixes`, or `Resolves`):
 
 Closes #
 
